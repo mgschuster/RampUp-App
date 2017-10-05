@@ -22,6 +22,7 @@ class RampPlacerVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationCo
     // Variables
     var selectedRampName: String?
     var selectedRamp: SCNNode?
+    var PickerIsVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +95,9 @@ class RampPlacerVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationCo
         let hitTransform = SCNMatrix4(hitFeature.worldTransform)
         let hitPosition = SCNVector3Make(hitTransform.m41, hitTransform.m42, hitTransform.m43)
         
-        placeRamp(position: hitPosition)
+        if PickerIsVisible == false {
+            placeRamp(position: hitPosition)
+        }
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -102,6 +105,7 @@ class RampPlacerVC: UIViewController, ARSCNViewDelegate, UIPopoverPresentationCo
     }
     
     @IBAction func onRampBtnPressed(_ sender: UIButton) {
+        PickerIsVisible = true
         let rampPickerVC = RampPickerVC(size: CGSize(width: 250, height: 500))
         rampPickerVC.rampPlacerVC = self
         rampPickerVC.modalPresentationStyle = .popover
